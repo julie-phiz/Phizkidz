@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhizKidz — Physics You Can Touch</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --cream: #fffbf2;
+    --yellow: #FFD93D;
+    --coral: #FF6B6B;
+    --teal: #4ECDC4;
+    --purple: #9B5DE5;
+    --green: #6BCB77;
+    --light-teal: #e0faf8;
+    --light-coral: #ffe8e8;
+    --light-purple: #f0e6ff;
+    --light-yellow: #fff8dc;
+    --card-radius: 20px;
+    --shadow: 0 4px 24px rgba(26,26,46,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Nunito', sans-serif; color: var(--ink); min-height: 100vh; }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px; background: var(--ink);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--yellow); letter-spacing: 1px; }
+  .logo span { color: var(--teal); }
+  nav ul { display: flex; gap: 28px; list-style: none; }
+  nav ul li a { color: #fff; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: color 0.2s; }
+  nav ul li a:hover { color: var(--yellow); }
+
+  /* PROGRESS BANNER */
+  #progress-banner {
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .progress-title {
+    font-family: 'Fredoka One', cursive;
+    color: var(--yellow);
+    font-size: 1.1rem;
+  }
+  .progress-title span { color: rgba(255,255,255,0.6); font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; }
+  .progress-topics {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .prog-topic {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 30px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.55);
+    transition: all 0.3s;
+  }
+  .prog-topic.done {
+    background: rgba(107,203,119,0.18);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .prog-topic .check { font-size: 0.9rem; }
+  .progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-bar-bg {
+    width: 140px;
+    height: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    border-radius: 10px;
+    transition: width 0.6s ease;
+    width: 0%;
+  }
+  .progress-pct {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--teal);
+    min-width: 36px;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink); color: white;
+    padding: 70px 40px 80px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(78,205,196,0.18) 0%, transparent 70%);
+    top: -100px; left: -100px; border-radius: 50%;
+  }
+  .hero::after {
+    content: ''; position: absolute; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,107,0.15) 0%, transparent 70%);
+    bottom: -80px; right: -80px; border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-block; background: var(--yellow); color: var(--ink);
+    font-weight: 800; font-size: 0.8rem; padding: 6px 16px; border-radius: 30px;
+    margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 1.1; margin-bottom: 18px; position: relative; z-index: 1;
+  }
+  .hero h1 .accent { color: var(--teal); }
+  .hero p {
+    font-size: 1.15rem; color: rgba(255,255,255,0.8);
+    max-width: 520px; margin: 0 auto 32px; line-height: 1.7; position: relative; z-index: 1;
+  }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-primary {
+    background: var(--yellow); color: var(--ink); border: none;
+    padding: 14px 32px; border-radius: 50px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 1rem; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 0 #c9a800;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #c9a800; }
+  .btn-secondary {
+    background: transparent; color: white; border: 2px solid rgba(255,255,255,0.4);
+    padding: 14px 32px; border-radius: 50px; font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--teal); background: rgba(78,205,196,0.1); }
+  .floaties { display: flex; justify-content: center; gap: 40px; margin-top: 50px; font-size: 2.8rem; position: relative; z-index: 1; }
+  .floaties span { display: inline-block; animation: float 3s ease-in-out infinite; }
+  .floaties span:nth-child(2) { animation-delay: 0.5s; }
+  .floaties span:nth-child(3) { animation-delay: 1s; }
+  .floaties span:nth-child(4) { animation-delay: 1.5s; }
+  .floaties span:nth-child(5) { animation-delay: 2s; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  /* SECTIONS */
+  section { padding: 70px 40px; }
+  .section-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--coral); margin-bottom: 10px; }
+  .section-title { font-family: 'Fredoka One', cursive; font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 12px; color: var(--ink); }
+  .section-sub { color: #555; font-size: 1rem; max-width: 500px; line-height: 1.7; margin-bottom: 44px; }
+
+  /* TOPICS */
+  #topics { background: var(--cream); }
+  .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .topic-card {
+    border-radius: var(--card-radius); padding: 32px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .topic-card:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(26,26,46,0.15); }
+  .topic-card.light { background: var(--light-yellow); border: 2px solid var(--yellow); }
+  .topic-card.magnet { background: var(--light-teal); border: 2px solid var(--teal); }
+  .topic-card.pressure { background: var(--light-coral); border: 2px solid var(--coral); }
+  .topic-card.completed::after {
+    content: '✅ Completed!';
+    position: absolute; top: 14px; right: 14px;
+    background: var(--green); color: white;
+    font-size: 0.75rem; font-weight: 800;
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .topic-emoji { font-size: 3rem; margin-bottom: 16px; display: block; }
+  .topic-card h3 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; margin-bottom: 8px; }
+  .topic-card p { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+  .topic-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: rgba(26,26,46,0.08); color: var(--ink); }
+  .topic-btn {
+    display: inline-block; margin-top: 20px; padding: 10px 22px;
+    border-radius: 30px; font-weight: 800; font-size: 0.9rem;
+    border: none; cursor: pointer; transition: transform 0.15s; font-family: 'Nunito', sans-serif;
+  }
+  .topic-btn:hover { transform: scale(1.05); }
+  .topic-card.light .topic-btn { background: var(--yellow); color: var(--ink); }
+  .topic-card.magnet .topic-btn { background: var(--teal); color: var(--ink); }
+  .topic-card.pressure .topic-btn { background: var(--coral); color: white; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,26,46,0.6); z-index: 200;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: white; border-radius: 24px; padding: 40px;
+    max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto;
+    position: relative; box-shadow: 0 20px 60px rgba(26,26,46,0.25);
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: #f0f0f0; border: none; border-radius: 50%;
+    width: 36px; height: 36px; font-size: 1.1rem;
+    cursor: pointer; font-weight: 700; transition: background 0.2s;
+  }
+  .modal-close:hover { background: #e0e0e0; }
+  .modal-tabs { display: flex; gap: 8px; margin: 20px 0; }
+  .modal-tab {
+    padding: 8px 20px; border-radius: 30px; border: 2px solid #e0e0e0;
+    background: white; font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+  }
+  .modal-tab.active { background: var(--ink); color: white; border-color: var(--ink); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .modal h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; margin-bottom: 6px; }
+  .modal-emoji { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+  .experiment-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 16px; padding: 14px;
+    background: var(--cream); border-radius: 12px;
+  }
+  .step-num {
+    background: var(--ink); color: white; font-weight: 800; font-size: 0.85rem;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-text { font-size: 0.95rem; line-height: 1.6; color: #444; }
+  .materials-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .material-tag {
+    background: var(--light-yellow); border: 1px solid var(--yellow);
+    padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;
+  }
+  .fun-fact {
+    background: linear-gradient(135deg, var(--purple), #7b3fc4);
+    color: white; border-radius: 14px; padding: 18px 22px; margin-top: 20px;
+  }
+  .fun-fact-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 6px; }
+  .fun-fact p { font-size: 0.95rem; line-height: 1.6; }
+
+  /* GAME */
+  .game-area { background: var(--ink); border-radius: 16px; padding: 28px; color: white; text-align: center; }
+  .game-area h3 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 8px; color: var(--yellow); }
+  .game-area p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 20px; }
+  .game-question { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; color: white; }
+  .game-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .game-option {
+    padding: 12px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05); color: white;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .game-option:hover { border-color: var(--teal); background: rgba(78,205,196,0.1); }
+  .game-option.correct { border-color: #6BCB77; background: rgba(107,203,119,0.2); color: #6BCB77; }
+  .game-option.wrong { border-color: var(--coral); background: rgba(255,107,107,0.2); color: var(--coral); }
+  .game-feedback { font-size: 0.95rem; min-height: 24px; margin-bottom: 10px; }
+  .game-score {
+    display: inline-block; background: var(--yellow); color: var(--ink);
+    font-weight: 800; padding: 6px 18px; border-radius: 30px; font-size: 0.9rem; margin-bottom: 14px;
+  }
+  .next-btn {
+    background: var(--teal); color: var(--ink); border: none;
+    padding: 10px 26px; border-radius: 30px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: transform 0.15s; display: none;
+  }
+  .next-btn:hover { transform: scale(1.05); }
+
+  /* Q PROGRESS DOTS */
+  .q-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 18px; }
+  .q-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); transition: background 0.3s;
+  }
+  .q-dot.done { background: var(--green); }
+  .q-dot.current { background: var(--yellow); }
+
+  /* HOW IT WORKS */
+  #how { background: var(--ink); color: white; }
+  #how .section-label { color: var(--teal); }
+  #how .section-title { color: white; }
+  #how .section-sub { color: rgba(255,255,255,0.6); }
+  .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+  .how-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--card-radius); padding: 28px 24px; text-align: center; transition: background 0.2s;
+  }
+  .how-card:hover { background: rgba(255,255,255,0.08); }
+  .how-icon { font-size: 2.4rem; margin-bottom: 14px; }
+  .how-card h4 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--yellow); margin-bottom: 8px; }
+  .how-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; }
+
+  /* CONFETTI */
+  .confetti-piece {
+    position: fixed; width: 10px; height: 10px; border-radius: 2px;
+    animation: confettiFall 2.5s ease-in forwards;
+    pointer-events: none; z-index: 9999;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* TOAST */
+  #toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--ink); color: white; padding: 14px 28px; border-radius: 40px;
+    font-weight: 800; font-size: 1rem; z-index: 9999;
+    transition: transform 0.4s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* FOOTER */
+  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08); padding: 28px 40px; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+  footer .footer-logo { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--yellow); margin-bottom: 8px; }
+  footer .footer-logo span { color: var(--teal); }
+
+  @media (max-width: 600px) {
+    nav { padding: 14px 20px; }
+    nav ul { gap: 16px; }
+    section { padding: 50px 20px; }
+    .hero { padding: 50px 20px 60px; }
+    .floaties { gap: 20px; font-size: 2rem; }
+    .modal { padding: 28px 20px; }
+    .game-options { grid-template-columns: 1fr; }
+    #progress-banner { padding: 14px 20px; }
+    .progress-bar-bg { width: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Phiz<span>Kidz</span></div>
+  <ul>
+    <li><a href="#topics">Topics</a></li>
+    <li><a href="#how">How It Works</a></li>
+  </ul>
+</nav>
+
+<!-- PROGRESS BANNER -->
+<div id="progress-banner">
+  <div>
+    <div class="progress-title">Your Journey <span>— complete all 3 topics!</span></div>
+  </div>
+  <div class="progress-topics">
+    <div class="prog-topic" id="prog-light"><span class="check">💡</span> Light &amp; Shadows</div>
+    <div class="prog-topic" id="prog-magnet"><span class="check">🧲</span> Magnetism</div>
+    <div class="prog-topic" id="prog-pressure"><span class="check">💧</span> Pressure</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🔬 Physics for Ages 8–12</div>
+  <h1>Physics You Can<br><span class="accent">Touch &amp; Try</span></h1>
+  <p>Real experiments with things you have at home. Play games. Discover how the world works — one wow moment at a time.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('topics').scrollIntoView({behavior:'smooth'})">Start Exploring ✨</button>
+    <button class="btn-secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How It Works</button>
+  </div>
+  <div class="floaties">
+    <span>💡</span><span>🧲</span><span>💧</span><span>🔭</span><span>⚗️</span>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section id="topics">
+  <div class="section-label">Explore Topics</div>
+  <div class="section-title">Pick a Topic to Begin</div>
+  <div class="section-sub">Each topic comes with a home experiment and a game to test what you've learned.</div>
+  <div class="topics-grid">
+    <div class="topic-card light" id="card-light">
+      <span class="topic-emoji">💡</span>
+      <h3>Light &amp; Shadows</h3>
+      <p>Why do shadows change size? What makes a rainbow? Explore how light travels and plays tricks on your eyes.</p>
+      <div class="topic-tags"><span class="tag">🏠 Home Experiment</span><span class="tag">🎮 Mini Game</span></div>
+      <button class="topic-btn" onclick="openModal('light')">Explore →</button>
+    </div>
+    <div class="topic-card magnet" id="card-magnet">
+      <span class="topic-emoji">🧲</span>
+      <h3>Magnetism</h3>
+      <p>Some things stick, some don't. Make your own compass and discover the invisible force that affects the whole Earth.</p>
+      <div class="topic-tags"><span class="tag">🏠 Home Experiment</span><span class="tag">🎮 Mini Game</span></div>
+      <button class="topic-btn" onclick="openModal('magnet')">Explore →</button>
+    </div>
+    <div class="topic-card pressure" id="card-pressure">
+      <span class="topic-emoji">💧</span>
+      <h3>Pressure &amp; Fluids</h3>
+      <p>Why does water come out faster from the bottom? How do submarines dive? Learn the secret life of liquids.</p>
+      <div class="topic-tags"><span class="tag">🏠 Home Experiment</span><span class="tag">🎮 Mini Game</span></div>
+      <button class="topic-btn" onclick="openModal('pressure')">Explore →</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">How PhizKidz Works</div>
+  <div class="section-title">Learn by Doing</div>
+  <div class="section-sub">No fancy equipment needed. Just curiosity and stuff you already have at home.</div>
+  <div class="how-grid">
+    <div class="how-card"><div class="how-icon">🎯</div><h4>Pick a Topic</h4><p>Choose from Light, Magnetism, or Pressure. More topics coming soon!</p></div>
+    <div class="how-card"><div class="how-icon">🧪</div><h4>Try the Experiment</h4><p>Follow simple steps using everyday household items. No lab required.</p></div>
+    <div class="how-card"><div class="how-icon">🎮</div><h4>Play the Game</h4><p>Test what you just learned with a fun quiz. Can you get a perfect score?</p></div>
+    <div class="how-card"><div class="how-icon">🌟</div><h4>Discover More</h4><p>Every topic ends with a mind-blowing real-world fact that connects physics to your life.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Phiz<span>Kidz</span></div>
+  <p>Making physics real for every curious kid 🚀</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-emoji" id="modalEmoji"></span>
+    <h2 id="modalTitle"></h2>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('experiment', this)">🧪 Experiment</button>
+      <button class="modal-tab" onclick="switchTab('game', this)">🎮 Game</button>
+    </div>
+    <div class="tab-content active" id="tab-experiment"></div>
+    <div class="tab-content" id="tab-game"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ─── SOUND ENGINE (Web Audio API — no files needed) ───────────────────────
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getCtx() {
+  if (!audioCtx) audioCtx = new AudioContext();
+  return audioCtx;
+}
+
+function playTone(freq, type, duration, gain, startDelay) {
+  try {
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + startDelay);
+    gainNode.gain.setValueAtTime(gain, ctx.currentTime + startDelay);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startDelay + duration);
+    osc.start(ctx.currentTime + startDelay);
+    osc.stop(ctx.currentTime + startDelay + duration);
+  } catch(e) {}
+}
+
+function soundCorrect() {
+  // happy ascending chime
+  playTone(523, 'sine', 0.15, 0.4, 0);
+  playTone(659, 'sine', 0.15, 0.4, 0.1);
+  playTone(784, 'sine', 0.25, 0.4, 0.2);
+}
+
+function soundWrong() {
+  // low buzz
+  playTone(220, 'sawtooth', 0.12, 0.3, 0);
+  playTone(180, 'sawtooth', 0.18, 0.3, 0.1);
+}
+
+function soundLevelComplete() {
+  // fanfare: do-mi-sol-do
+  const notes = [523, 659, 784, 1047];
+  notes.forEach((f, i) => playTone(f, 'sine', 0.25, 0.45, i * 0.12));
+}
+
+function soundPerfect() {
+  // big celebration arpeggio
+  const notes = [523, 659, 784, 1047, 1319];
+  notes.forEach((f, i) => playTone(f, 'triangle', 0.3, 0.5, i * 0.1));
+  setTimeout(() => {
+    const notes2 = [1047, 784, 659, 523];
+    notes2.forEach((f, i) => playTone(f, 'sine', 0.2, 0.4, i * 0.08));
+  }, 600);
+}
+
+function soundClick() {
+  playTone(880, 'sine', 0.06, 0.2, 0);
+}
+
+function soundOpen() {
+  playTone(440, 'sine', 0.1, 0.3, 0);
+  playTone(550, 'sine', 0.15, 0.3, 0.08);
+}
+
+// ─── PROGRESS STATE ───────────────────────────────────────────────────────
+const completed = { light: false, magnet: false, pressure: false };
+
+function markComplete(topicKey) {
+  if (completed[topicKey]) return;
+  completed[topicKey] = true;
+  document.getElementById('card-' + topicKey).classList.add('completed');
+  document.getElementById('prog-' + topicKey).classList.add('done');
+  updateProgressBar();
+  showToast('🎉 ' + topics[topicKey].title + ' completed!');
+}
+
+function updateProgressBar() {
+  const count = Object.values(completed).filter(Boolean).length;
+  const pct = Math.round((count / 3) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  if (count === 3) {
+    setTimeout(() => {
+      showToast('🏆 You completed ALL topics! You\'re a PhizKidz champion!');
+      launchConfetti(80);
+      soundPerfect();
+    }, 600);
+  }
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── CONFETTI ─────────────────────────────────────────────────────────────
+function launchConfetti(count) {
+  const colors = ['#FFD93D','#FF6B6B','#4ECDC4','#9B5DE5','#6BCB77','#fff'];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-20px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = Math.random() * 1.5 + 's';
+    el.style.width = (8 + Math.random() * 8) + 'px';
+    el.style.height = (8 + Math.random() * 8) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+// ─── TOPICS DATA ──────────────────────────────────────────────────────────
+const topics = {
+  light: {
+    emoji: '💡', title: 'Light & Shadows',
+    experiment: {
+      intro: 'Discover how shadows change with distance — using just a torch and your hand!',
+      materials: ['Torch or phone flashlight', 'Your hand', 'A blank wall', 'Measuring tape or ruler'],
+      steps: [
+        'Turn off the lights and shine your torch at the wall from 30 cm away.',
+        'Hold your hand between the torch and the wall, about halfway.',
+        'Trace or notice the size of the shadow.',
+        'Now move your hand closer to the torch. What happens to the shadow?',
+        'Move your hand closer to the wall. What happens now?',
+        'Try making shadow animals — can you make a rabbit or a bird?'
+      ],
+      fact: 'On sunny days, your shadow is shortest at noon (when the sun is directly above) and longest in the morning or evening. Ancient Egyptians used shadow lengths to tell time — that\'s how the sundial was invented!'
+    },
+    game: { questions: [
+      { q: 'What happens to a shadow when you move the object closer to the light source?', options: ['Shadow gets bigger', 'Shadow gets smaller', 'Shadow disappears', 'Shadow stays the same'], answer: 0 },
+      { q: 'Light travels in...', options: ['Curves', 'Circles', 'Straight lines', 'Zigzags'], answer: 2 },
+      { q: 'Which material lets light pass through completely?', options: ['Wood', 'Clear glass', 'Brick wall', 'Metal'], answer: 1 },
+      { q: 'What do we call a material that blocks all light?', options: ['Transparent', 'Translucent', 'Opaque', 'Reflective'], answer: 2 }
+    ]}
+  },
+  magnet: {
+    emoji: '🧲', title: 'Magnetism',
+    experiment: {
+      intro: 'Build your own compass using a needle, water, and a magnet — just like ancient sailors used!',
+      materials: ['Sewing needle', 'Bar magnet or fridge magnet', 'Small bowl of water', 'Small piece of paper or leaf', 'Compass (optional, to check your result)'],
+      steps: [
+        'Stroke the needle 30–40 times with one end of your magnet. Always stroke in the same direction.',
+        'Cut a small circle from paper (about 2 cm wide) or use a small leaf.',
+        'Float the paper on the surface of the water in your bowl.',
+        'Carefully place the needle on top of the paper so it floats.',
+        'Watch — the needle will slowly turn and point North-South!',
+        'Rotate the bowl. Does the needle follow the bowl, or keep pointing the same direction?'
+      ],
+      fact: 'The Earth is like a giant magnet! Its core is made of molten iron that creates a magnetic field around the entire planet. That\'s why a compass needle always points north — it\'s being pulled by Earth itself!'
+    },
+    game: { questions: [
+      { q: 'Which of these is magnetic?', options: ['Plastic ruler', 'Iron nail', 'Glass cup', 'Rubber eraser'], answer: 1 },
+      { q: 'What do we call the two ends of a magnet?', options: ['Top and Bottom', 'Left and Right', 'North and South Poles', 'Plus and Minus'], answer: 2 },
+      { q: 'What happens when two North poles face each other?', options: ['They attract', 'They repel (push away)', 'Nothing happens', 'They stick together'], answer: 1 },
+      { q: 'The Earth behaves like a giant...', options: ['Battery', 'Magnet', 'Light bulb', 'Mirror'], answer: 1 }
+    ]}
+  },
+  pressure: {
+    emoji: '💧', title: 'Pressure & Fluids',
+    experiment: {
+      intro: 'See water pressure in action — punch holes in a bottle and discover why depth matters!',
+      materials: ['Empty plastic bottle (500ml)', 'Water', 'A nail or sharp pencil', 'Tape', 'Sink or outdoor space'],
+      steps: [
+        'Use the nail to carefully poke 3 holes in the bottle — one near the top, one in the middle, one near the bottom. Ask an adult to help!',
+        'Cover all 3 holes with tape.',
+        'Fill the bottle to the top with water.',
+        'Hold the bottle over a sink and remove all the tape at once.',
+        'Watch the 3 streams — which one shoots out the farthest?',
+        'The bottom stream shoots farthest because there\'s more water pushing down on it — that\'s pressure!'
+      ],
+      fact: 'Deep-sea fish live under enormous water pressure — thousands of times greater than what we feel on land. Their bodies are specially built to handle it. If you brought one up to the surface too quickly, the pressure change would be harmful to them!'
+    },
+    game: { questions: [
+      { q: 'In the bottle experiment, which hole shoots water out the farthest?', options: ['The top hole', 'The middle hole', 'The bottom hole', 'They all shoot equally far'], answer: 2 },
+      { q: 'Water pressure increases as you go...', options: ['Higher up', 'Deeper down', 'Sideways', 'It stays the same'], answer: 1 },
+      { q: 'Which tool uses fluid pressure to work?', options: ['A pencil', 'A car brake system', 'A wooden ruler', 'A mirror'], answer: 1 },
+      { q: 'What does a submarine use to dive deeper into water?', options: ['More engine power', 'Filling tanks with water to get heavier', 'Spinning propellers backward', 'Using a giant anchor'], answer: 1 }
+    ]}
+  }
+};
+
+// ─── MODAL + GAME STATE ───────────────────────────────────────────────────
+let currentTopic = null;
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+function openModal(topicKey) {
+  soundOpen();
+  currentTopic = topicKey;
+  const t = topics[topicKey];
+  document.getElementById('modalEmoji').textContent = t.emoji;
+  document.getElementById('modalTitle').textContent = t.title;
+  renderExperiment(t);
+  renderGame(t);
+  document.querySelectorAll('.modal-tab').forEach((tab, i) => tab.classList.toggle('active', i === 0));
+  document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === 0));
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderExperiment(t) {
+  const e = t.experiment;
+  const materialsHTML = e.materials.map(m => `<span class="material-tag">📦 ${m}</span>`).join('');
+  const stepsHTML = e.steps.map((s, i) => `
+    <div class="experiment-step">
+      <div class="step-num">${i+1}</div>
+      <div class="step-text">${s}</div>
+    </div>`).join('');
+  document.getElementById('tab-experiment').innerHTML = `
+    <p style="color:#555;font-size:0.95rem;line-height:1.6;margin-bottom:18px;">${e.intro}</p>
+    <div style="font-weight:800;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;color:#888;">You'll Need</div>
+    <div class="materials-list">${materialsHTML}</div>
+    <div style="font-weight:800;font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;color:#888;">Steps</div>
+    ${stepsHTML}
+    <div class="fun-fact">
+      <div class="fun-fact-label">⚡ Did You Know?</div>
+      <p>${e.fact}</p>
+    </div>`;
+}
+
+function renderGame(t) {
+  currentQuestion = 0; score = 0; answered = false;
+  renderQuestion(t);
+}
+
+function renderQuestion(t) {
+  const q = t.game.questions[currentQuestion];
+  const total = t.game.questions.length;
+  const dotsHTML = t.game.questions.map((_, i) =>
+    `<div class="q-dot ${i < currentQuestion ? 'done' : i === currentQuestion ? 'current' : ''}"></div>`
+  ).join('');
+  const optionsHTML = q.options.map((o, i) =>
+    `<button class="game-option" onclick="checkAnswer(${i})">${o}</button>`
+  ).join('');
+  document.getElementById('tab-game').innerHTML = `
+    <div class="game-area">
+      <h3>🎮 Quick Quiz</h3>
+      <p>Answer all questions to complete this topic!</p>
+      <div class="game-score">Score: ${score} / ${total}</div><br>
+      <div class="q-dots">${dotsHTML}</div>
+      <div class="game-question">Q${currentQuestion+1}: ${q.q}</div>
+      <div class="game-options">${optionsHTML}</div>
+      <div class="game-feedback" id="gameFeedback"></div>
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+    </div>`;
+}
+
+function checkAnswer(i) {
+  if (answered) return;
+  answered = true;
+  soundClick();
+  const t = topics[currentTopic];
+  const q = t.game.questions[currentQuestion];
+  const options = document.querySelectorAll('.game-option');
+  const feedback = document.getElementById('gameFeedback');
+  const nextBtn = document.getElementById('nextBtn');
+
+  if (i === q.answer) {
+    options[i].classList.add('correct');
+    feedback.textContent = '✅ Correct! Great job!';
+    feedback.style.color = '#6BCB77';
+    score++;
+    setTimeout(soundCorrect, 80);
+    launchConfetti(18);
+  } else {
+    options[i].classList.add('wrong');
+    options[q.answer].classList.add('correct');
+    feedback.textContent = '❌ Not quite — the right answer is highlighted!';
+    feedback.style.color = '#FF6B6B';
+    setTimeout(soundWrong, 80);
+  }
+  nextBtn.style.display = 'inline-block';
+  if (currentQuestion === t.game.questions.length - 1) nextBtn.textContent = 'See Results 🏆';
+}
+
+function nextQuestion() {
+  soundClick();
+  const t = topics[currentTopic];
+  currentQuestion++;
+  answered = false;
+  if (currentQuestion >= t.game.questions.length) showResults(t);
+  else renderQuestion(t);
+}
+
+function showResults(t) {
+  const total = t.game.questions.length;
+  const percent = Math.round((score / total) * 100);
+  const perfect = percent === 100;
+  const message = perfect ? '🏆 Perfect score! You\'re a physics genius!' :
+    percent >= 75 ? '🌟 Amazing! You really understand this topic!' :
+    percent >= 50 ? '👍 Good effort! Try the experiment again and replay!' :
+    '🔁 Keep practicing — you\'ll get it!';
+
+  if (perfect) { soundPerfect(); launchConfetti(60); }
+  else { soundLevelComplete(); launchConfetti(30); }
+
+  markComplete(currentTopic);
+
+  document.getElementById('tab-game').innerHTML = `
+    <div class="game-area" style="padding:36px;">
+      <div style="font-size:3rem;margin-bottom:12px;">${perfect ? '🏆' : '🎉'}</div>
+      <h3 style="margin-bottom:8px;">Quiz Complete!</h3>
+      <div class="game-score" style="font-size:1.1rem;padding:10px 28px;margin:16px auto;display:inline-block;">
+        ${score} / ${total} correct (${percent}%)
+      </div>
+      <p style="margin:14px 0 24px;color:rgba(255,255,255,0.8);font-size:1rem;">${message}</p>
+      <button class="next-btn" style="display:inline-block;" onclick="renderGame(topics['${currentTopic}'])">Play Again 🔄</button>
+    </div>`;
+}
+
+function switchTab(tabId, btn) {
+  soundClick();
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+</script>
+</body>
+</html>
