@@ -246,6 +246,26 @@
   .how-card h4 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--yellow); margin-bottom: 8px; }
   .how-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; }
 
+  /* SPINE / HEALTHY BACKS CAMPAIGN */
+  #spine { background: var(--light-purple); }
+  #spine .section-label { color: var(--purple); }
+  .spine-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto 40px; }
+  .spine-card { background: white; border: 2px solid #e4d4fb; border-radius: var(--card-radius); padding: 28px 24px; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; }
+  .spine-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(26,26,46,0.13); }
+  .spine-icon { font-size: 2.2rem; margin-bottom: 12px; display: block; }
+  .spine-card h4 { font-family: 'Fredoka One', cursive; font-size: 1.15rem; margin-bottom: 8px; color: var(--ink); }
+  .spine-card p { color: #555; font-size: 0.92rem; line-height: 1.65; }
+  .spine-diagram { background: white; border-radius: 18px; padding: 24px; box-shadow: var(--shadow); max-width: 1100px; margin: 0 auto 40px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+  .spine-diagram svg { flex-shrink: 0; }
+  .spine-diagram-text { flex: 1; min-width: 240px; }
+  .spine-diagram-text h4 { font-family: 'Fredoka One', cursive; font-size: 1.25rem; margin-bottom: 10px; color: var(--purple); }
+  .spine-diagram-text p { color: #555; font-size: 0.95rem; line-height: 1.7; margin-bottom: 10px; }
+  .campaign-box { max-width: 1100px; margin: 0 auto; background: linear-gradient(135deg, var(--purple), #7b3fc4); color: white; border-radius: 20px; padding: 36px 32px; }
+  .campaign-box .campaign-label { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; opacity: 0.85; margin-bottom: 10px; }
+  .campaign-box h3 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; margin-bottom: 14px; }
+  .campaign-box p { font-size: 0.98rem; line-height: 1.75; opacity: 0.95; margin-bottom: 14px; max-width: 720px; }
+  .campaign-box .campaign-signoff { font-size: 0.85rem; opacity: 0.75; margin-top: 10px; font-weight: 700; }
+
   /* CONFETTI */
   .confetti-piece { position: fixed; width: 10px; height: 10px; border-radius: 2px; animation: confettiFall 2.5s ease-in forwards; pointer-events: none; z-index: 9999; }
   @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
@@ -280,6 +300,7 @@
   <ul>
     <li><a href="#topics">Topics</a></li>
     <li><a href="#how">How It Works</a></li>
+    <li><a href="#spine">Healthy Spines</a></li>
   </ul>
 </nav>
 
@@ -315,6 +336,13 @@
     <div>
       <div class="badge-name">Amethyst</div>
       <div class="badge-desc">Complete 2 topics</div>
+    </div>
+  </div>
+  <div class="badge-item" id="badge-wonderer">
+    <span class="badge-icon">🌟</span>
+    <div>
+      <div class="badge-name">Wonderer</div>
+      <div class="badge-desc">Complete 3 topics</div>
     </div>
   </div>
   <div class="badge-item" id="badge-physicist">
@@ -386,7 +414,69 @@
     <div class="how-card"><div class="how-icon">🎯</div><h4>Pick a Topic</h4><p>Choose from Light, Magnetism, Pressure, or Forces. More topics coming soon!</p></div>
     <div class="how-card"><div class="how-icon">🧪</div><h4>Try the Experiment</h4><p>Follow simple steps using everyday household items. No lab required.</p></div>
     <div class="how-card"><div class="how-icon">🎮</div><h4>Play the Game</h4><p>Answer 10 questions to test what you learned. Can you get a perfect score?</p></div>
-    <div class="how-card"><div class="how-icon">🏅</div><h4>Earn Badges</h4><p>Complete topics to unlock Explorer, Amethyst, and Physicist badges!</p></div>
+    <div class="how-card"><div class="how-icon">🏅</div><h4>Earn Badges</h4><p>Complete topics to unlock Explorer, Amethyst, Wonderer, and Physicist badges!</p></div>
+  </div>
+</section>
+
+<!-- SPINE / HEALTHY BACKS CAMPAIGN -->
+<section id="spine">
+  <div class="section-label">Bonus Topic</div>
+  <div class="section-title">How Your Spine Works</div>
+  <div class="section-sub">Your spine is a stack of physics tricks holding your whole body up. Here's how it works — and why keeping it healthy matters for people who carry heavy loads every day.</div>
+
+  <div class="spine-diagram">
+    <svg width="140" height="220" viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M70 10 C 40 40, 95 70, 70 100 C 45 130, 95 160, 70 190" stroke="#9B5DE5" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="70" cy="14" rx="14" ry="9" fill="#e0d0fb" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="63" cy="36" rx="14" ry="9" fill="#e0d0fb" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="80" cy="58" rx="14" ry="9" fill="#e0d0fb" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="70" cy="82" rx="14" ry="9" fill="#e0d0fb" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="52" cy="104" rx="14" ry="9" fill="#e0d0fb" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="68" cy="126" rx="15" ry="9.5" fill="#d8c2fa" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="85" cy="148" rx="15" ry="9.5" fill="#d8c2fa" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="72" cy="170" rx="15" ry="9.5" fill="#d8c2fa" stroke="#9B5DE5" stroke-width="2"/>
+      <ellipse cx="70" cy="192" rx="16" ry="10" fill="#c6a6f7" stroke="#9B5DE5" stroke-width="2"/>
+      <line x1="20" y1="8" x2="55" y2="8" stroke="#888" stroke-width="1" stroke-dasharray="2 2"/>
+      <text x="0" y="6" font-size="8" fill="#888" font-family="Nunito">neck curve</text>
+      <line x1="15" y1="126" x2="53" y2="126" stroke="#888" stroke-width="1" stroke-dasharray="2 2"/>
+      <text x="0" y="132" font-size="8" fill="#888" font-family="Nunito">low back</text>
+    </svg>
+    <div class="spine-diagram-text">
+      <h4>Not a Straight Pole — an S-Shaped Spring</h4>
+      <p>Your spine isn't a stiff rod. It's built from small bones called vertebrae, stacked in a gentle S-curve with soft cushioning discs between each one. That curve is what lets it absorb shock every time you walk, jump, or carry something heavy.</p>
+      <p>The lower part of that curve — your <strong>lumbar spine</strong> — carries the most load, because everything above it (head, arms, chest) presses down through it.</p>
+    </div>
+  </div>
+
+  <div class="spine-grid">
+    <div class="spine-card">
+      <span class="spine-icon">🧱</span>
+      <h4>Stacked Like Blocks</h4>
+      <p>You have 33 vertebrae stacked on top of each other, from your neck down to your tailbone. Stacking lets your spine bend, twist, and still hold you upright — a straight pole couldn't do that.</p>
+    </div>
+    <div class="spine-card">
+      <span class="spine-icon">🛟</span>
+      <h4>Discs Are Shock Absorbers</h4>
+      <p>Between each vertebra sits a soft, gel-filled disc. Discs squash slightly every time you move, spreading out force so no single bone takes the full hit — like a cushion between two bricks.</p>
+    </div>
+    <div class="spine-card">
+      <span class="spine-icon">⚖️</span>
+      <h4>Load = Force Through a Lever</h4>
+      <p>Carrying weight on your head or back turns your spine into a lever. The heavier the load, and the further it sits from your hips, the more compression force squeezes your lower back — simple physics, real consequences.</p>
+    </div>
+    <div class="spine-card">
+      <span class="spine-icon">🦴</span>
+      <h4>Why Lifting Technique Matters</h4>
+      <p>Bending at the knees instead of the waist keeps the load closer to your body's center, shrinking the lever arm and cutting the force on your discs. Small posture changes make a big physics difference.</p>
+    </div>
+  </div>
+
+  <div class="campaign-box">
+    <div class="campaign-label">🌍 Why I Built This Section</div>
+    <h3>Physics That Protects Real Backs</h3>
+    <p>I started PhizKidz to make physics feel real for kids, but the same forces we play with here (levers, pressure, load, compression) are the exact forces I study in my own research on occupational load carriers: people who carry heavy goods on their heads or backs for a living, often for years, without support.</p>
+    <p>My research models how much compressive force builds up in the lumbar spine during repetitive load-carrying, and explores how an affordable exoskeleton could redistribute that force before it causes long-term injury. It's the same S-curve, the same lever, the same discs you just learned about here just with higher stakes for the people who depend on their spines to earn a living.</p>
+    <p class="campaign-signoff">— Julie, Founder of PhizKidz &amp; Independent Researcher, </p>
   </div>
 </section>
 
@@ -442,6 +532,7 @@ const completed = { light: false, magnet: false, pressure: false, forces: false 
 const BADGES = [
   { id: 'explorer',  threshold: 1, icon: '🔭', name: 'Explorer',   msg: '🔭 Explorer badge unlocked! You completed your first topic!' },
   { id: 'amethyst',  threshold: 2, icon: '💎', name: 'Amethyst',   msg: '💎 Amethyst badge unlocked! Halfway through — keep going!' },
+  { id: 'wonderer',  threshold: 3, icon: '🌟', name: 'Wonderer',   msg: '🌟 Wonderer badge unlocked! Just one topic to go!' },
   { id: 'physicist', threshold: 4, icon: '⚛️', name: 'Physicist',  msg: '⚛️ Physicist badge unlocked! You mastered ALL topics!' },
 ];
 
@@ -875,6 +966,7 @@ function nextQuestion() {
 function getBadgeForTopic(topicKey) {
   const count = Object.values(completed).filter(Boolean).length + 1; // +1 because we haven't marked yet
   if (count >= 4) return { icon: '⚛️', name: 'Physicist', desc: 'You\'ve mastered ALL topics!' };
+  if (count >= 3) return { icon: '🌟', name: 'Wonderer', desc: 'Just one topic to go!' };
   if (count >= 2) return { icon: '💎', name: 'Amethyst', desc: 'Halfway through — amazing!' };
   return { icon: '🔭', name: 'Explorer', desc: 'You completed your first topic!' };
 }
@@ -933,7 +1025,4 @@ function closeModalOnOverlay(e) {
 </script>
 </body>
 </html>
-
-   
-
   
